@@ -39,8 +39,8 @@
         .error { text-align: center; padding: 40px 20px; }
         .error .icon { font-size: 48px; margin-bottom: 12px; }
         .error .msg { color: var(--red); }
-        .account-info { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
         @media (max-width: 600px) { .stats { grid-template-columns: 1fr; } }
+
     </style>
 </head>
 <body>
@@ -48,8 +48,8 @@
         <div class="header">
             <h1>📧 ClawEmail 邀请码监控</h1>
             <p>实时查看邀请码状态 · 每 10 分钟自动更新</p>
-            <div class="account-info" id="accountInfo"></div>
         </div>
+
 
         <div class="stats" id="statsCards">
             <div class="stat-card total">
@@ -110,14 +110,8 @@
             // 更新时间
             document.getElementById('updateInfo').textContent = '🕐 更新于 ' + data.timestamp;
 
-            // 账号信息
-            const account = d.account;
-            if (account.display_name) {
-                document.getElementById('accountInfo').innerHTML = 
-                    `👤 ${account.display_name} · ${account.email} · 角色: ${account.role}`;
-            }
-
             // 构建内容
+
             let html = '';
 
             if (invites.unused.length > 0) {

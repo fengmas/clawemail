@@ -19,8 +19,8 @@ import requests
 
 API_BASE = "https://claw.163.com/mailserv-claw-dashboard"
 INVITES_API = f"{API_BASE}/api/v1/invites"
-AUTH_ME_API = f"{API_BASE}/api/v1/auth/me"
 COOKIE_NAME = "CLAW_SESS"
+
 
 TZ = timezone(timedelta(hours=8))
 
@@ -49,7 +49,8 @@ def sign_data(data: dict, secret: str) -> str:
     ).hexdigest()
 
 
-def fetch_invites(cookie: str) -> tuple:
+def fetch_invites(cookie: str) -> dict:
+    """仅获取邀请码数据，不获取账号个人信息"""
     session = requests.Session()
     session.trust_env = False
     session.headers.update({
@@ -57,20 +58,18 @@ def fetch_invites(cookie: str) -> tuple:
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
     })
 
-    auth_resp = session.get(AUTH_ME_API, timeout=15, verify=False)
-    auth_data = auth_resp.json()
-    user_info = auth_data.get("result", {}) if auth_data.get("success") else {}
-
     resp = session.get(INVITES_API, timeout=15, verify=False)
     data = resp.json()
 
     if not data.get("success"):
         raise Exception(f"API 请求失败: {data.get('message', '未知错误')}")
 
-    return data, user_info
+    return data
 
 
-def format_api_data(raw_data: dict, user_info: dict, api_token: str) -> dict:
+
+def format_api_data(raw_data: dict, api_token: str) -> dict:
+    """格式化邀请码数据，不包含任何账号个人信息"""
     result = raw_data.get("result", [])
     unused = []
     used = []
@@ -102,11 +101,6 @@ def format_api_data(raw_data: dict, user_info: dict, api_token: str) -> dict:
                 "unused": len(unused),
                 "used": len(used)
             },
-            "account": {
-                "display_name": user_info.get("displayName", ""),
-                "email": user_info.get("email", ""),
-                "role": user_info.get("role", "")
-            },
             "invites": {
                 "unused": unused,
                 "used": used
@@ -125,7 +119,6 @@ def format_api_data(raw_data: dict, user_info: dict, api_token: str) -> dict:
 def generate_markdown(api_data: dict) -> str:
     d = api_data["data"]
     s = d["summary"]
-    account = d["account"]
     unused = d["invites"]["unused"]
     used = d["invites"]["used"]
 
@@ -133,10 +126,6 @@ def generate_markdown(api_data: dict) -> str:
     lines.append("# ClawEmail 邀请码状态\n")
     lines.append(f"> 更新时间: {api_data['timestamp']}  |  更新间隔: {api_data['update_interval']}\n")
     lines.append("---\n")
-    lines.append("## 账号")
-    lines.append(f"- 名称: {account['display_name']}")
-    lines.append(f"- 邮箱: {account['email']}")
-    lines.append(f"- 角色: {account['role']}\n")
     lines.append("## 统计\n")
     lines.append(f"- 总计: {s['total']} 个")
     lines.append(f"- 待使用: {s['unused']} 个")
@@ -169,10 +158,10 @@ def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
 
     print("正在获取邀请码数据...")
-    raw_data, user_info = fetch_invites(cookie)
+    raw_data = fetch_invites(cookie)
 
     print("生成 API 数据...")
-    api_data = format_api_data(raw_data, user_info, api_token)
+    api_data = format_api_data(raw_data, api_token)
 
     json_path = os.path.join(base_dir, "invites_api.json")
     with open(json_path, "w", encoding="utf-8") as f:
@@ -186,6 +175,7 @@ def main():
 
     s = api_data["data"]["summary"]
     print(f"\n统计: 总计 {s['total']} | 待使用 {s['unused']} | 已使用 {s['used']}")
+
 
 
 if __name__ == "__main__":
