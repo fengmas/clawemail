@@ -77,13 +77,16 @@
 
         <div class="footer">
             <a href="https://claw.163.com" target="_blank">ClawEmail</a> · 
-            <a href="https://github.com/你的用户名/clawemail" target="_blank">GitHub</a> · 
+            <a href="https://github.com/fengmas/clawemail" target="_blank">GitHub</a> · 
+
             数据每 10 分钟刷新
         </div>
     </div>
 
     <script>
-    const API_URL = './invites_api.json';
+    // 使用 GitHub raw 地址直接读取根目录的 JSON 数据
+    const API_URL = 'https://raw.githubusercontent.com/fengmas/clawemail/main/invites_api.json';
+
 
     function renderBadge(status) {
         if (status === 'unused') return '<span class="status-badge status-unused">🟢 待使用</span>';
