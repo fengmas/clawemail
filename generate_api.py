@@ -152,29 +152,123 @@ def generate_markdown(api_data: dict) -> str:
     return "\n".join(lines)
 
 
+def write_json(base_dir: str, filename: str, data: dict):
+    """写入 JSON 文件"""
+    path = os.path.join(base_dir, filename)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    print(f"  ✅ {filename}")
+    return path
+
+
 def main():
     cookie = get_cookie()
     api_token = os.environ.get("API_TOKEN", "")
     base_dir = os.path.dirname(os.path.abspath(__file__))
 
-    print("正在获取邀请码数据...")
+    print("🚀 正在获取邀请码数据...")
     raw_data = fetch_invites(cookie)
-
-    print("生成 API 数据...")
     api_data = format_api_data(raw_data, api_token)
 
-    json_path = os.path.join(base_dir, "invites_api.json")
-    with open(json_path, "w", encoding="utf-8") as f:
-        json.dump(api_data, f, indent=2, ensure_ascii=False)
-    print(f"API 数据已写入: invites_api.json")
+    d = api_data["data"]
+    s = d["summary"]
+    unused = d["invites"]["unused"]
+    used = d["invites"]["used"]
 
+    now = datetime.now(TZ)
+    timestamp = now.strftime("%Y-%m-%dT%H:%M:%S+08:00")
+
+    print("\n📦 生成 API 数据文件:")
+    print("-" * 30)
+
+    # ===== 1. 完整数据 =====
+    # 对应 GET invites_api.json
+    write_json(base_dir, "invites_api.json", api_data)
+
+    # ===== 2. 卡片格式 — 全部 =====
+    # 对应 GET invites_api.json + type=card
+    card_all = {
+        "code": 200,
+        "success": True,
+        "message": "success",
+        "data": {
+            "cards": unused + [
+                {"code": u["code"], "status": u["status_text"]}
+                for u in used
+            ],
+            "total": s["total"],
+            "returned": s["total"],
+        },
+        "timestamp": timestamp,
+    }
+    write_json(base_dir, "invites_api_card.json", card_all)
+
+    # ===== 3. 卡片格式 — 仅待使用 =====
+    # 对应 GET invites_api.json + type=card + status=unused
+    card_unused = {
+        "code": 200,
+        "success": True,
+        "message": "success",
+        "data": {
+            "cards": unused,
+            "total": s["unused"],
+            "returned": len(unused),
+        },
+        "timestamp": timestamp,
+    }
+    write_json(base_dir, "invites_api_unused.json", card_unused)
+
+    # ===== 4. 仅1个待使用邀请码（最常用） =====
+    # 对应 GET invites_api.json + type=card + count=1
+    one_card = {
+        "code": 200,
+        "success": True,
+        "message": "success",
+        "data": {
+            "code": unused[0]["code"] if unused else "",
+            "available": len(unused) > 0,
+            "total_unused": s["unused"],
+        },
+        "timestamp": timestamp,
+    }
+    write_json(base_dir, "invites_api_getone.json", one_card)
+
+    # ===== 5. 已使用邀请码 =====
+    used_data = {
+        "code": 200,
+        "success": True,
+        "message": "success",
+        "data": {
+            "cards": [
+                {
+                    "code": u["code"],
+                    "status": u["status_text"],
+                    "used_by": u["used_by"],
+                    "used_at": u["used_at"],
+                }
+                for u in used
+            ],
+            "total": s["used"],
+        },
+        "timestamp": timestamp,
+    }
+    write_json(base_dir, "invites_api_used.json", used_data)
+
+    # ===== Markdown 报告 =====
     md_path = os.path.join(base_dir, "invites_report.md")
     with open(md_path, "w", encoding="utf-8") as f:
         f.write(generate_markdown(api_data))
-    print(f"报告已写入: invites_report.md")
+    print(f"  ✅ invites_report.md")
 
-    s = api_data["data"]["summary"]
-    print(f"\n统计: 总计 {s['total']} | 待使用 {s['unused']} | 已使用 {s['used']}")
+    print("-" * 30)
+    print(f"\n📊 统计: 总计 {s['total']} | 待使用 {s['unused']} | 已使用 {s['used']}")
+    print("\n🌐 可用的 API 地址:")
+    print(f"   全部数据: https://raw.githubusercontent.com/fengmas/clawemail/main/invites_api.json")
+    print(f"   卡片格式: https://raw.githubusercontent.com/fengmas/clawemail/main/invites_api_card.json")
+    print(f"   仅待使用: https://raw.githubusercontent.com/fengmas/clawemail/main/invites_api_unused.json")
+    print(f"   ✅ 取1个: https://raw.githubusercontent.com/fengmas/clawemail/main/invites_api_getone.json")
+    print(f"   已使用的: https://raw.githubusercontent.com/fengmas/clawemail/main/invites_api_used.json")
+
 
 
 

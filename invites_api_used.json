@@ -1,0 +1,29 @@
+{
+  "code": 200,
+  "success": true,
+  "message": "success",
+  "data": {
+    "cards": [
+      {
+        "code": "CLAWC01ED81C12DC",
+        "status": "已使用",
+        "used_by": "g***0@163.com",
+        "used_at": "2026-05-08T22:23:24"
+      },
+      {
+        "code": "CLAW9B18E44CCD85",
+        "status": "已使用",
+        "used_by": "1***3@qq.com",
+        "used_at": "2026-05-08T22:32:49"
+      },
+      {
+        "code": "CLAW6D9CA6549C53",
+        "status": "已使用",
+        "used_by": "j***h@qq.com",
+        "used_at": "2026-05-08T22:06:13"
+      }
+    ],
+    "total": 3
+  },
+  "timestamp": "2026-05-10T10:18:47+08:00"
+}

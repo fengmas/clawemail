@@ -1,0 +1,49 @@
+{
+  "code": 200,
+  "success": true,
+  "message": "success",
+  "data": {
+    "cards": [
+      {
+        "code": "CLAWE776C1CAC8B1",
+        "status": "unused",
+        "status_text": "待使用"
+      },
+      {
+        "code": "CLAWCCDA0930083F",
+        "status": "unused",
+        "status_text": "待使用"
+      },
+      {
+        "code": "CLAW580D73E2697A",
+        "status": "unused",
+        "status_text": "待使用"
+      },
+      {
+        "code": "CLAW4FE539AF8148",
+        "status": "unused",
+        "status_text": "待使用"
+      },
+      {
+        "code": "CLAW1B7A4A0B126A",
+        "status": "unused",
+        "status_text": "待使用"
+      },
+      {
+        "code": "CLAWC01ED81C12DC",
+        "status": "已使用"
+      },
+      {
+        "code": "CLAW9B18E44CCD85",
+        "status": "已使用"
+      },
+      {
+        "code": "CLAW6D9CA6549C53",
+        "status": "已使用"
+      }
+    ],
+    "total": 8,
+    "returned": 8
+  },
+  "timestamp": "2026-05-10T10:18:47+08:00"
+}
