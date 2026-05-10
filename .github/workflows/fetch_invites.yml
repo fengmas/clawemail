@@ -1,0 +1,36 @@
+name: 定时获取邀请码
+
+on:
+  schedule:
+    # 每 10 分钟运行一次
+    - cron: '*/10 * * * *'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  fetch-invites:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装依赖
+        run: pip install requests
+
+      - name: 获取邀请码并生成 API 数据
+        env:
+          CLAW_SESS: ${{ secrets.CLAW_SESS }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: python generate_api.py
+
+      - name: 提交更新到仓库
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add invites_api.json invites_report.md
+          git diff --staged --quiet || (git commit -m "chore: 更新邀请码数据 $(date '+%Y-%m-%d %H:%M')" && git push)

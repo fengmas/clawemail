@@ -1,0 +1,71 @@
+{
+  "code": 200,
+  "message": "success",
+  "success": true,
+  "data": {
+    "summary": {
+      "total": 8,
+      "unused": 5,
+      "used": 3
+    },
+    "account": {
+      "display_name": "fengmaniu3",
+      "email": "fengmaniu3@gmail.COM",
+      "role": "user"
+    },
+    "invites": {
+      "unused": [
+        {
+          "code": "CLAWE776C1CAC8B1",
+          "status": "unused",
+          "status_text": "待使用"
+        },
+        {
+          "code": "CLAWCCDA0930083F",
+          "status": "unused",
+          "status_text": "待使用"
+        },
+        {
+          "code": "CLAW580D73E2697A",
+          "status": "unused",
+          "status_text": "待使用"
+        },
+        {
+          "code": "CLAW4FE539AF8148",
+          "status": "unused",
+          "status_text": "待使用"
+        },
+        {
+          "code": "CLAW1B7A4A0B126A",
+          "status": "unused",
+          "status_text": "待使用"
+        }
+      ],
+      "used": [
+        {
+          "code": "CLAWC01ED81C12DC",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "g***0@163.com",
+          "used_at": "2026-05-08T22:23:24"
+        },
+        {
+          "code": "CLAW9B18E44CCD85",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "1***3@qq.com",
+          "used_at": "2026-05-08T22:32:49"
+        },
+        {
+          "code": "CLAW6D9CA6549C53",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "j***h@qq.com",
+          "used_at": "2026-05-08T22:06:13"
+        }
+      ]
+    }
+  },
+  "timestamp": "2026-05-10T09:49:43+08:00",
+  "update_interval": "10分钟"
+}

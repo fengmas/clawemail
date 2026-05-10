@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClawEmail 邀请码监控</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --text-secondary: #8b949e; --green: #3fb950; --red: #f85149; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+        .container { max-width: 860px; margin: 0 auto; }
+        .header { text-align: center; padding: 30px 0 20px; }
+        .header h1 { font-size: 28px; background: linear-gradient(135deg, #58a6ff, #1a73e8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header p { color: var(--text-secondary); margin-top: 8px; font-size: 14px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; text-align: center; }
+        .stat-card .num { font-size: 32px; font-weight: 700; }
+        .stat-card .label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .stat-card.total .num { color: #58a6ff; }
+        .stat-card.unused .num { color: var(--green); }
+        .stat-card.used .num { color: var(--red); }
+        .section { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+        .section h2 { font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .section h2 .badge { font-size: 12px; background: var(--border); padding: 2px 10px; border-radius: 12px; font-weight: 400; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+        th { color: var(--text-secondary); font-weight: 500; }
+        tr:hover td { background: rgba(255,255,255,0.03); }
+        code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; background: rgba(88,166,255,0.1); padding: 2px 6px; border-radius: 4px; color: #58a6ff; }
+        .status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+        .status-unused { background: rgba(63,185,80,0.15); color: var(--green); }
+        .status-used { background: rgba(248,81,73,0.15); color: var(--red); }
+        .footer { text-align: center; color: var(--text-secondary); font-size: 13px; padding: 20px 0; }
+        .footer a { color: #58a6ff; text-decoration: none; }
+        .update-info { text-align: center; font-size: 13px; color: var(--text-secondary); margin: 8px 0 20px; }
+        .loading { text-align: center; padding: 60px 20px; color: var(--text-secondary); }
+        .loading .spinner { display: inline-block; width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: #58a6ff; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .error { text-align: center; padding: 40px 20px; }
+        .error .icon { font-size: 48px; margin-bottom: 12px; }
+        .error .msg { color: var(--red); }
+        .account-info { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin-top: 6px; }
+        @media (max-width: 600px) { .stats { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 ClawEmail 邀请码监控</h1>
+            <p>实时查看邀请码状态 · 每 10 分钟自动更新</p>
+            <div class="account-info" id="accountInfo"></div>
+        </div>
+
+        <div class="stats" id="statsCards">
+            <div class="stat-card total">
+                <div class="num" id="totalCount">-</div>
+                <div class="label">总计</div>
+            </div>
+            <div class="stat-card unused">
+                <div class="num" id="unusedCount">-</div>
+                <div class="label">🟢 待使用</div>
+            </div>
+            <div class="stat-card used">
+                <div class="num" id="usedCount">-</div>
+                <div class="label">🔴 已使用</div>
+            </div>
+        </div>
+
+        <div class="update-info" id="updateInfo"></div>
+
+        <div id="content">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div>正在加载邀请码数据...</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <a href="https://claw.163.com" target="_blank">ClawEmail</a> · 
+            <a href="https://github.com/你的用户名/clawemail" target="_blank">GitHub</a> · 
+            数据每 10 分钟刷新
+        </div>
+    </div>
+
+    <script>
+    const API_URL = './invites_api.json';
+
+    function renderBadge(status) {
+        if (status === 'unused') return '<span class="status-badge status-unused">🟢 待使用</span>';
+        return '<span class="status-badge status-used">🔴 已使用</span>';
+    }
+
+    async function loadData() {
+        try {
+            const resp = await fetch(API_URL + '?t=' + Date.now());
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const data = await resp.json();
+
+            if (!data.success) throw new Error(data.message || '获取数据失败');
+
+            const d = data.data;
+            const s = d.summary;
+            const invites = d.invites;
+
+            // 统计
+            document.getElementById('totalCount').textContent = s.total;
+            document.getElementById('unusedCount').textContent = s.unused;
+            document.getElementById('usedCount').textContent = s.used;
+
+            // 更新时间
+            document.getElementById('updateInfo').textContent = '🕐 更新于 ' + data.timestamp;
+
+            // 账号信息
+            const account = d.account;
+            if (account.display_name) {
+                document.getElementById('accountInfo').innerHTML = 
+                    `👤 ${account.display_name} · ${account.email} · 角色: ${account.role}`;
+            }
+
+            // 构建内容
+            let html = '';
+
+            if (invites.unused.length > 0) {
+                html += '<div class="section"><h2>🟢 待使用邀请码 <span class="badge">' + invites.unused.length + ' 个</span></h2>';
+                html += '<table><thead><tr><th>#</th><th>邀请码</th><th>状态</th></tr></thead><tbody>';
+                invites.unused.forEach((item, i) => {
+                    html += `<tr><td>${i + 1}</td><td><code>${item.code}</code></td><td>${renderBadge(item.status)}</td></tr>`;
+                });
+                html += '</tbody></table></div>';
+            }
+
+            if (invites.used.length > 0) {
+                html += '<div class="section"><h2>🔴 已使用邀请码 <span class="badge">' + invites.used.length + ' 个</span></h2>';
+                html += '<table><thead><tr><th>邀请码</th><th>状态</th><th>被谁使用</th><th>使用时间</th></tr></thead><tbody>';
+                invites.used.forEach(item => {
+                    html += `<tr><td><code>${item.code}</code></td><td>${renderBadge(item.status)}</td><td>${item.used_by}</td><td>${item.used_at}</td></tr>`;
+                });
+                html += '</tbody></table></div>';
+            }
+
+            document.getElementById('content').innerHTML = html;
+
+        } catch (err) {
+            console.error(err);
+            document.getElementById('content').innerHTML = `
+                <div class="error">
+                    <div class="icon">⚠️</div>
+                    <div class="msg">加载失败: ${err.message}</div>
+                    <p style="color:var(--text-secondary);margin-top:12px;font-size:14px;">请确认 invites_api.json 文件已生成</p>
+                </div>
+            `;
+        }
+    }
+
+    // 页面加载后立即获取，之后每 60 秒轮询(页面级)
+    loadData();
+    setInterval(loadData, 60000);
+    </script>
+</body>
+</html>

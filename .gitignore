@@ -1,0 +1,11 @@
+# Cookie 文件（包含敏感凭证）
+.cookie
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 环境文件
+.env
+.venv
