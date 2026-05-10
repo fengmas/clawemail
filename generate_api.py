@@ -35,7 +35,11 @@ def get_cookie() -> str:
     if not cookie:
         print("错误: 未找到 CLAW_SESS", file=sys.stderr)
         sys.exit(1)
+    # 容错：如果用户误将 "CLAW_SESS=xxx" 整段粘贴，自动去掉前缀
+    if cookie.startswith("CLAW_SESS="):
+        cookie = cookie[len("CLAW_SESS="):]
     return cookie
+
 
 
 def sign_data(data: dict, secret: str) -> str:
