@@ -63,9 +63,15 @@
         "status": "已使用",
         "used_by": "8***3@qq.com",
         "used_at": "2026-05-11T12:57:53"
+      },
+      {
+        "code": "CLAWF966A98E5733",
+        "status": "已使用",
+        "used_by": "s***q@gmail.com",
+        "used_at": "2026-05-11T14:14:03"
       }
     ],
-    "total": 10
+    "total": 11
   },
-  "timestamp": "2026-05-11T14:10:20+08:00"
+  "timestamp": "2026-05-11T14:20:36+08:00"
 }
