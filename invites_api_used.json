@@ -53,13 +53,19 @@
         "used_at": null
       },
       {
+        "code": "CLAW6933430FCB3E",
+        "status": "已使用",
+        "used_by": "1***1@qq.com",
+        "used_at": null
+      },
+      {
         "code": "CLAWF70C074321A6",
         "status": "已使用",
         "used_by": "8***3@qq.com",
         "used_at": "2026-05-11T12:57:53"
       }
     ],
-    "total": 9
+    "total": 10
   },
-  "timestamp": "2026-05-11T13:41:58+08:00"
+  "timestamp": "2026-05-11T13:50:27+08:00"
 }
