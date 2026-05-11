@@ -5,18 +5,13 @@
   "data": {
     "cards": [
       {
-        "code": "CLAW0D8FECA8B478",
-        "status": "unused",
-        "status_text": "待使用"
-      },
-      {
         "code": "CLAWE31C02F03E0C",
         "status": "unused",
         "status_text": "待使用"
       }
     ],
-    "total": 2,
-    "returned": 2
+    "total": 1,
+    "returned": 1
   },
-  "timestamp": "2026-05-11T15:20:26+08:00"
+  "timestamp": "2026-05-11T15:30:32+08:00"
 }

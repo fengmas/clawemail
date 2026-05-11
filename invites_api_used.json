@@ -69,9 +69,15 @@
         "status": "已使用",
         "used_by": "s***q@gmail.com",
         "used_at": "2026-05-11T14:14:03"
+      },
+      {
+        "code": "CLAW0D8FECA8B478",
+        "status": "已使用",
+        "used_by": "***@code.gta6.work",
+        "used_at": null
       }
     ],
-    "total": 11
+    "total": 12
   },
-  "timestamp": "2026-05-11T15:20:26+08:00"
+  "timestamp": "2026-05-11T15:30:32+08:00"
 }
