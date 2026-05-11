@@ -4,39 +4,36 @@
   "success": true,
   "data": {
     "summary": {
-      "total": 8,
-      "unused": 5,
-      "used": 3
+      "total": 10,
+      "unused": 3,
+      "used": 7
     },
     "invites": {
       "unused": [
-        {
-          "code": "CLAWE776C1CAC8B1",
-          "status": "unused",
-          "status_text": "待使用"
-        },
-        {
-          "code": "CLAWCCDA0930083F",
-          "status": "unused",
-          "status_text": "待使用"
-        },
         {
           "code": "CLAW580D73E2697A",
           "status": "unused",
           "status_text": "待使用"
         },
         {
-          "code": "CLAW4FE539AF8148",
+          "code": "CLAW6933430FCB3E",
           "status": "unused",
           "status_text": "待使用"
         },
         {
-          "code": "CLAW1B7A4A0B126A",
+          "code": "CLAWF70C074321A6",
           "status": "unused",
           "status_text": "待使用"
         }
       ],
       "used": [
+        {
+          "code": "CLAWE776C1CAC8B1",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "t***g@live.nl",
+          "used_at": "2026-05-11T11:35:43"
+        },
         {
           "code": "CLAWC01ED81C12DC",
           "status": "used",
@@ -52,15 +49,36 @@
           "used_at": "2026-05-08T22:32:49"
         },
         {
+          "code": "CLAWCCDA0930083F",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "a***d@163.com",
+          "used_at": "2026-05-11T11:39:32"
+        },
+        {
           "code": "CLAW6D9CA6549C53",
           "status": "used",
           "status_text": "已使用",
           "used_by": "j***h@qq.com",
           "used_at": "2026-05-08T22:06:13"
+        },
+        {
+          "code": "CLAW4FE539AF8148",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "5***n@gmail.com",
+          "used_at": null
+        },
+        {
+          "code": "CLAW1B7A4A0B126A",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "j***y@duck.com",
+          "used_at": null
         }
       ]
     }
   },
-  "timestamp": "2026-05-11T11:30:23+08:00",
+  "timestamp": "2026-05-11T11:40:21+08:00",
   "update_interval": "10分钟"
 }
