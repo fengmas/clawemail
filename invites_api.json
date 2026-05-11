@@ -4,9 +4,9 @@
   "success": true,
   "data": {
     "summary": {
-      "total": 10,
+      "total": 11,
       "unused": 2,
-      "used": 8
+      "used": 9
     },
     "invites": {
       "unused": [
@@ -16,7 +16,7 @@
           "status_text": "待使用"
         },
         {
-          "code": "CLAWF70C074321A6",
+          "code": "CLAWF966A98E5733",
           "status": "unused",
           "status_text": "待使用"
         }
@@ -77,10 +77,17 @@
           "status_text": "已使用",
           "used_by": "j***y@duck.com",
           "used_at": null
+        },
+        {
+          "code": "CLAWF70C074321A6",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "8***3@qq.com",
+          "used_at": "2026-05-11T12:57:53"
         }
       ]
     }
   },
-  "timestamp": "2026-05-11T12:50:21+08:00",
+  "timestamp": "2026-05-11T13:00:32+08:00",
   "update_interval": "10分钟"
 }

@@ -10,7 +10,7 @@
         "status_text": "待使用"
       },
       {
-        "code": "CLAWF70C074321A6",
+        "code": "CLAWF966A98E5733",
         "status": "unused",
         "status_text": "待使用"
       }
@@ -18,5 +18,5 @@
     "total": 2,
     "returned": 2
   },
-  "timestamp": "2026-05-11T12:50:21+08:00"
+  "timestamp": "2026-05-11T13:00:32+08:00"
 }

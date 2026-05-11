@@ -51,9 +51,15 @@
         "status": "已使用",
         "used_by": "j***y@duck.com",
         "used_at": null
+      },
+      {
+        "code": "CLAWF70C074321A6",
+        "status": "已使用",
+        "used_by": "8***3@qq.com",
+        "used_at": "2026-05-11T12:57:53"
       }
     ],
-    "total": 8
+    "total": 9
   },
-  "timestamp": "2026-05-11T12:50:21+08:00"
+  "timestamp": "2026-05-11T13:00:32+08:00"
 }
