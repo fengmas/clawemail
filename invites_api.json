@@ -5,17 +5,11 @@
   "data": {
     "summary": {
       "total": 13,
-      "unused": 1,
-      "used": 12
+      "unused": 0,
+      "used": 13
     },
     "invites": {
-      "unused": [
-        {
-          "code": "CLAWE31C02F03E0C",
-          "status": "unused",
-          "status_text": "待使用"
-        }
-      ],
+      "unused": [],
       "used": [
         {
           "code": "CLAWE776C1CAC8B1",
@@ -100,10 +94,17 @@
           "status_text": "已使用",
           "used_by": "***@code.gta6.work",
           "used_at": null
+        },
+        {
+          "code": "CLAWE31C02F03E0C",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "h***e@gmail.com",
+          "used_at": null
         }
       ]
     }
   },
-  "timestamp": "2026-05-11T16:30:24+08:00",
+  "timestamp": "2026-05-11T16:40:25+08:00",
   "update_interval": "10分钟"
 }

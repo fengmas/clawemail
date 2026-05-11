@@ -3,9 +3,9 @@
   "success": true,
   "message": "success",
   "data": {
-    "code": "CLAWE31C02F03E0C",
-    "available": true,
-    "total_unused": 1
+    "code": "",
+    "available": false,
+    "total_unused": 0
   },
-  "timestamp": "2026-05-11T16:30:24+08:00"
+  "timestamp": "2026-05-11T16:40:25+08:00"
 }
