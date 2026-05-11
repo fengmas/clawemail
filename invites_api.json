@@ -5,16 +5,11 @@
   "data": {
     "summary": {
       "total": 10,
-      "unused": 3,
-      "used": 7
+      "unused": 2,
+      "used": 8
     },
     "invites": {
       "unused": [
-        {
-          "code": "CLAW580D73E2697A",
-          "status": "unused",
-          "status_text": "待使用"
-        },
         {
           "code": "CLAW6933430FCB3E",
           "status": "unused",
@@ -63,6 +58,13 @@
           "used_at": "2026-05-08T22:06:13"
         },
         {
+          "code": "CLAW580D73E2697A",
+          "status": "used",
+          "status_text": "已使用",
+          "used_by": "z***9@gmail.com",
+          "used_at": null
+        },
+        {
           "code": "CLAW4FE539AF8148",
           "status": "used",
           "status_text": "已使用",
@@ -79,6 +81,6 @@
       ]
     }
   },
-  "timestamp": "2026-05-11T12:00:27+08:00",
+  "timestamp": "2026-05-11T12:10:21+08:00",
   "update_interval": "10分钟"
 }

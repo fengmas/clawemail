@@ -35,6 +35,12 @@
         "used_at": "2026-05-08T22:06:13"
       },
       {
+        "code": "CLAW580D73E2697A",
+        "status": "已使用",
+        "used_by": "z***9@gmail.com",
+        "used_at": null
+      },
+      {
         "code": "CLAW4FE539AF8148",
         "status": "已使用",
         "used_by": "5***n@gmail.com",
@@ -47,7 +53,7 @@
         "used_at": null
       }
     ],
-    "total": 7
+    "total": 8
   },
-  "timestamp": "2026-05-11T12:00:27+08:00"
+  "timestamp": "2026-05-11T12:10:21+08:00"
 }
